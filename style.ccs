@@ -62,8 +62,8 @@ footer {
   margin-top: 40px;
 }
 .logo {
-  width: 80px;        /* Smaller size */
-  height: auto;       /* Keep natural aspect ratio */
+  width: 40px;        /* App icon size */
+  height: auto;
   display: block;
-  margin: 20px auto;  /* Center the logo with spacing */
+  margin: 10px auto;  /* Smaller margin */
 }
