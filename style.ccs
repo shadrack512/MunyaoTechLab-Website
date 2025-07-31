@@ -95,3 +95,36 @@ footer {
 .navbar ul li a:hover {
   color: #00ffcc;
 }
+.navbar {
+  background-color: #333; /* dark background */
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar li {
+  margin: 0 20px;
+}
+
+.navbar a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
