@@ -21,10 +21,6 @@ header {
   flex-wrap: wrap;
 }
 
-.logo {
-  height: 50px;
-}
-
 nav ul {
   list-style: none;
   display: flex;
@@ -66,8 +62,8 @@ footer {
   margin-top: 40px;
 }
 .logo {
-  width: 150px;      /* Resize width */
-  height: auto;      /* Keep aspect ratio */
+  width: 80px;        /* Smaller size */
+  height: auto;       /* Keep natural aspect ratio */
   display: block;
-  margin: 20px auto; /* Center it with spacing */
+  margin: 20px auto;  /* Center the logo with spacing */
 }
