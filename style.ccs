@@ -128,3 +128,10 @@ footer {
   background-color: #575757;
   border-radius: 4px;
 }
+.logo {
+  display: block;
+  margin: 20px auto 10px auto;
+  width: 80px; /* icon size */
+  height: auto;
+  border-radius: 12px;
+}
