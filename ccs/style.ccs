@@ -6,8 +6,8 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f5f7fa;
-  color: #333;
+  background: linear-gradient(to bottom, #1c0d0d, #4b1515); /* Updated background to a red gradient */
+  color: #f5f7fa; /* Changed text color for better contrast on a dark background */
   line-height: 1.6;
 }
 
