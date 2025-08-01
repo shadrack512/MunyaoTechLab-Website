@@ -7,6 +7,40 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <p id="welcomeUser"></p>
+<button id="signOutBtn">Sign Out</button>
+<script type="module">
+  import { auth } from "./js/firebase-config.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+  const welcomeEl = document.getElementById("welcomeUser");
+  const signOutBtn = document.getElementById("signOutBtn");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      if (welcomeEl) {
+        welcomeEl.textContent = `Welcome, ${user.email}`;
+      }
+
+      if (signOutBtn) {
+        signOutBtn.addEventListener("click", () => {
+          import("https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js").then(({ signOut }) => {
+            signOut(auth).then(() => {
+              alert("You have been signed out.");
+              window.location.href = "login.html";
+            }).catch((error) => {
+              alert("Sign out failed: " + error.message);
+            });
+          });
+        });
+      }
+    } else {
+      // Not logged in, redirect
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
     <header>
        <img src="munyao-logo.jpeg" alt="MunyaoTech Lab Logo" class="logo">
     <h1>MunyaoTech Lab</h1>
@@ -90,6 +124,5 @@
     <a href="#contact">Contact</a>
   </div>
 </footer>
-
 </body>
 </html>
