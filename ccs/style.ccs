@@ -253,3 +253,21 @@ footer {
 .footer-links a:hover {
   text-decoration: underline;
 }
+input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0; /* Increased spacing between inputs */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.signup-container {
+  max-width: 400px;
+  margin: 40px auto; /* Adds space above and below the form */
+  padding: 30px;
+  background: #f9f9f9; /* Light gray background for contrast */
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
