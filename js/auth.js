@@ -44,18 +44,24 @@ if (loginForm) {
   });
 }
 
-import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { auth } from "../js/firebase-config.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
+// Forgot Password
 const forgotPasswordLink = document.getElementById("forgotPasswordLink");
 
 if (forgotPasswordLink) {
   forgotPasswordLink.addEventListener("click", (e) => {
     e.preventDefault();
-    const email = prompt("Please enter your email to reset password:");
+    const email = prompt("Enter your email to reset password:");
     if (email) {
       sendPasswordResetEmail(auth, email)
         .then(() => {
-          alert("Password reset email sent! Please check your inbox.");
+          alert("Password reset email sent!");
         })
         .catch((error) => {
           alert("Error: " + error.message);
@@ -63,3 +69,4 @@ if (forgotPasswordLink) {
     }
   });
 }
+
