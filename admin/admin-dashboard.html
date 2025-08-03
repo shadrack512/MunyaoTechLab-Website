@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard | MunyaoTech Lab</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .form-container, .article-list {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 15px;
+      background-color: #f4f4f4;
+      border-radius: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button.delete-btn {
+      background-color: crimson;
+    }
+    .article-item {
+      background-color: #fff;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Post a New Article</h2>
+    <form id="article-form">
+      <input type="text" id="title" placeholder="Article Title" required />
+      <textarea id="content" rows="6" placeholder="Write your article..." required></textarea>
+      <input type="text" id="imageUrl" placeholder="Optional Image URL" />
+      <button type="submit" id="submitBtn">Post Article</button>
+      <button type="button" id="cancelEditBtn" style="display:none; background:gray;">Cancel Edit</button>
+    </form>
+  </div>
+
+  <div class="article-list">
+    <h3>All Articles</h3>
+    <div id="article-list-container"></div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+  <script src="/firebase/firebase-admin-config.js"></script>
+
+  <script>
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const form = document.getElementById("article-form");
+    const title = document.getElementById("title");
+    const content = document.getElementById("content");
+    const imageUrl = document.getElementById("imageUrl");
+    const articleList = document.getElementById("article-list-container");
+    const cancelEditBtn = document.getElementById("cancelEditBtn");
+    const submitBtn = document.getElementById("submitBtn");
+
+    let editId = null;
+
+    auth.onAuthStateChanged(user => {
+      if (!user || user.email !== "youradmin@example.com") {
+        alert("Access denied.");
+        window.location.href = "/";
+      }
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const articleData = {
+        title: title.value,
+        content: content.value,
+        imageUrl: imageUrl.value,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      };
+
+      if (editId) {
+        await db.collection("articles").doc(editId).update(articleData);
+        editId = null;
+        submitBtn.textContent = "Post Article";
+        cancelEditBtn.style.display = "none";
+      } else {
+        await db.collection("articles").add(articleData);
+      }
+
+      form.reset();
+    });
+
+    cancelEditBtn.addEventListener("click", () => {
+      editId = null;
+      form.reset();
+      submitBtn.textContent = "Post Article";
+      cancelEditBtn.style.display = "none";
+    });
+
+    function renderArticles() {
+      db.collection("articles").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+        articleList.innerHTML = "";
+        snapshot.forEach(doc => {
+          const article = doc.data();
+          const div = document.createElement("div");
+          div.className = "article-item";
+          div.innerHTML = `
+            <strong>${article.title}</strong>
+            <p>${article.content}</p>
+            ${article.imageUrl ? `<img src="${article.imageUrl}" style="max-width:100%;">` : ""}
+            <br />
+            <button onclick="editArticle('${doc.id}', \`${article.title}\`, \`${article.content}\`, '${article.imageUrl || ""}')">Edit</button>
+            <button class="delete-btn" onclick="deleteArticle('${doc.id}')">Delete</button>
+          `;
+          articleList.appendChild(div);
+        });
+      });
+    }
+
+    function editArticle(id, titleText, contentText, imageText) {
+      editId = id;
+      title.value = titleText;
+      content.value = contentText;
+      imageUrl.value = imageText;
+      submitBtn.textContent = "Update Article";
+      cancelEditBtn.style.display = "inline-block";
+    }
+
+    async function deleteArticle(id) {
+      const confirmDelete = confirm("Are you sure you want to delete this article?");
+      if (confirmDelete) {
+        await db.collection("articles").doc(id).delete();
+      }
+    }
+
+    renderArticles();
+  </script>
+</body>
+</html>

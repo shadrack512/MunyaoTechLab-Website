@@ -59,6 +59,10 @@
     <a href="#projects">Projects</a> |
     <a href="#contact">Contact</a>
   </div>
+  <section id="recent-articles">
+  <h2>Latest articles</h2>
+  <div id="home-articles-container"></div>
+</section>
 <section id="projects" class="projects">
   <h2>Our Projects</h2>
   <style>
@@ -159,6 +163,33 @@
     }
   </style>
 </head>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+<script src="/firebase/firebase-admin-config.js"></script>
+
+<script>
+  const db = firebase.firestore();
+  const homeContainer = document.getElementById("home-articles-container");
+
+  db.collection("articles").orderBy("createdAt", "desc").limit(3).onSnapshot(snapshot => {
+    homeContainer.innerHTML = ""; // clear existing articles
+
+    snapshot.forEach(doc => {
+      const article = doc.data();
+      const div = document.createElement("div");
+      div.className = "article-preview";
+      div.innerHTML = `
+        <h3>${article.title}</h3>
+        ${article.imageUrl ? `<img src="${article.imageUrl}" style="max-width: 100%; border-radius: 5px;">` : ""}
+        <p>${article.content.substring(0, 100)}...</p>
+        <a href="/articles.html">Read more</a>
+      `;
+      homeContainer.appendChild(div);
+    });
+  });
+</script>
+
 <body>
   <div id="loading">
     <div id="spinner"></div>

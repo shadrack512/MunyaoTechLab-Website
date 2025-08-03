@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Articles | MunyaoTech Lab</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .article-card {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 20px;
+      background: #fff;
+      max-width: 600px;
+    }
+    .article-card img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Latest Articles</h2>
+  <div id="articles-container"></div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+  <script src="/firebase/firebase-admin-config.js"></script>
+
+  <script>
+    const db = firebase.firestore();
+    const container = document.getElementById("articles-container");
+
+    db.collection("articles").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+      container.innerHTML = ""; // Clear old content
+
+      snapshot.forEach(doc => {
+        const article = doc.data();
+        const card = document.createElement("div");
+        card.className = "article-card";
+
+        card.innerHTML = `
+          <h3>${article.title}</h3>
+          ${article.imageUrl ? `<img src="${article.imageUrl}" alt="Article Image">` : ""}
+          <p>${article.content}</p>
+        `;
+        container.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>
