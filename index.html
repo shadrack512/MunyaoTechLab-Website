@@ -6,8 +6,44 @@
   <title>MunyaoTech Lab</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <p id="welcomeUser"></p>
+<body>,
+ <div class="top-banner">
+  <span id="welcome-text">
+    At MunyaoTech Lab, we’re passionate about building smart solutions that solve real-world problems.
+    Whether you're here to explore our projects, collaborate on cutting-edge tech, or stay inspired—you're in the right place.
+  </span>
+</div>
+
+<style>
+.top-banner {
+  background-color: #001f3f;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 16px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+}
+#welcome-text {
+  animation: fadeLoop 8s ease-in-out infinite;
+  display: inline-block;
+}
+@keyframes fadeLoop {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 1; }
+}
+</style>
+<div class="top-banner" id="topBanner">
+  <span id="welcome-text">
+    At MunyaoTech Lab, we’re passionate about building smart solutions that solve real-world problems.
+    Whether you're here to explore our projects, collaborate on cutting-edge tech, or stay inspired—you're in the right place.
+  </span>
+  <button class="close-banner" onclick="document.getElementById('topBanner').style.display='none'">×</button>
+</div>
+
+<p id="welcomeUser"></p>
 <button id="signOutBtn">Sign Out</button>
 <script type="module">
   import { auth } from "./js/firebase-config.js";

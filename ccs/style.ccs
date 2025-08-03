@@ -288,3 +288,25 @@ input {
 #signOutBtn:hover {
   background-color: #c0392b;
 }
+.close-banner {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  background-color: #ff4136; /* Bright red */
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  text-align: center;
+  line-height: 26px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.close-banner:hover {
+  background-color: #e60000; /* Darker red on hover */
+}
+
