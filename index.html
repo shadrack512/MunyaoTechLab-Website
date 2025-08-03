@@ -61,6 +61,169 @@
   </div>
 <section id="projects" class="projects">
   <h2>Our Projects</h2>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f0f1a;
+      color: white;
+      overflow: hidden;
+    }
+    #loading {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #0f0f1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #spinner {
+      border: 6px solid rgba(255, 255, 255, 0.1);
+      border-left-color: #4caf50;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+    #loading h2 {
+      margin-top: 20px;
+    }
+    #welcome {
+      display: none;
+      text-align: center;
+      font-size: 1.5em;
+      margin: 20px 0;
+      color: #4caf50;
+      animation: fadeIn 2s ease-in;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .banner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      padding: 60px 30px 30px;
+      justify-items: center;
+      background: linear-gradient(135deg, #1e1e2f, #292940);
+    }
+    .tile {
+      background: #1a1a2e;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .tile:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffe1;
+      animation: pulse 1s infinite;
+    }
+    .tile img {
+      width: 64px;
+      height: 64px;
+      animation: rotate 10s linear infinite;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 10px #00ffe1;
+      }
+      50% {
+        box-shadow: 0 0 20px #00ffe1;
+      }
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .tagline {
+      font-size: 1.4em;
+      text-align: center;
+      padding-top: 10px;
+      color: #00ffe1;
+    }
+    .tagline span::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div id="spinner"></div>
+    <h2>Loading MunyaoTech Lab...</h2>
+    <audio autoplay loop>
+      <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_90fd617655.mp3?filename=relaxing-ambient-116198.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+  <div id="welcome">Welcome to MunyaoTech Lab 🚀</div>
+  <div class="tagline"><span id="typing"></span></div>
+  <div class="banner">
+    <div class="tile" onclick="playSound()">
+      <img src="https://img.icons8.com/fluency/96/chatbot.png" alt="EduChatbot">
+      <p>EduChatbot</p>
+    </div>
+    <div class="tile" onclick="playSound()">
+      <img src="https://img.icons8.com/fluency/96/line-chart.png" alt="Forex Platform">
+      <p>Forex Trading Platform</p>
+    </div>
+    <div class="tile" onclick="playSound()">
+      <img src="https://img.icons8.com/fluency/96/virtual-reality.png" alt="EduVerse AI">
+      <p>EduVerse AI</p>
+    </div>
+    <div class="tile" onclick="playSound()">
+      <img src="https://img.icons8.com/fluency/96/gps-device.png" alt="Lost Animal Tracker">
+      <p>Lost Animal Tracker</p>
+    </div>
+    <div class="tile" onclick="playSound()">
+      <img src="https://img.icons8.com/fluency/96/robot-2.png" alt="AI Robotics">
+      <p>AI Robotics</p>
+    </div>
+  </div>
+
+  <audio id="clickSound">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7061fcbd0b.mp3?filename=click-124467.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const text = "Innovating Through AI, Tech, and Creativity...";
+    let i = 0;
+    const typing = document.getElementById("typing");
+    function typeWriter() {
+      if (i < text.length) {
+        typing.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 100);
+      } else {
+        setTimeout(() => {
+          typing.innerHTML = "";
+          i = 0;
+          typeWriter();
+        }, 2000);
+      }
+    }
+    function playSound() {
+      document.getElementById('clickSound').play();
+    }
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("welcome").style.display = "block";
+      }, 2000);
+      typeWriter();
+    });
+  </script>
   <div class="project-list">
     <div class="project-card">
       <h3>EduChatbot</h3>
