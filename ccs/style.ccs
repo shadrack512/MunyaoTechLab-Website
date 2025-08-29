@@ -309,4 +309,14 @@ input {
 .close-banner:hover {
   background-color: #e60000; /* Darker red on hover */
 }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;   /* Ensures body always fills full screen height */
+  overflow-y: scroll;  /* Forces vertical scrollbar */
+}
 
