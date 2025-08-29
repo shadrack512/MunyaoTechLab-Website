@@ -171,9 +171,11 @@
 </header>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { 
+    getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot 
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-  // ✅ Your Firebase Config (replace with your actual config)
+  // ✅ Your Firebase Config
   const firebaseConfig = {
     apiKey: "AIzaSyCraXq51qucrTWJlD7ZXjUodP92Aqxfh3c",
     authDomain: "munyaotech-lab.firebaseapp.com",
@@ -187,21 +189,48 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Posts container
-  const postsDiv = document.getElementById("posts");
+  // ✅ FORM SUBMISSION – Add post
+  const form = document.getElementById("postForm");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const title = document.getElementById("title").value;
+      const content = document.getElementById("content").value;
 
-  // ✅ Fetch and display posts in card style
+      try {
+        await addDoc(collection(db, "posts"), {
+          title: title,
+          content: content,
+          timestamp: serverTimestamp()
+        });
+
+        // Clear form
+        form.reset();
+        alert("✅ Post added successfully!");
+      } catch (error) {
+        console.error("Error adding post:", error);
+        alert("❌ Failed to post. Check console.");
+      }
+    });
+  }
+
+  // ✅ FETCH AND DISPLAY POSTS
+  const postsDiv = document.getElementById("posts");
   const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+
   onSnapshot(q, (snapshot) => {
     postsDiv.innerHTML = "";
     snapshot.forEach((doc) => {
       const post = doc.data();
 
       postsDiv.innerHTML += `
-        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all">
+        <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all mb-4">
           <h2 class="text-xl font-semibold text-purple-600 mb-3">${post.title}</h2>
           <p class="text-gray-700 mb-4">${post.content}</p>
-          <span class="text-sm text-gray-400">📅 ${post.timestamp?.toDate().toLocaleString() || "Just now"}</span>
+          <span class="text-sm text-gray-400">
+            📅 ${post.timestamp?.toDate().toLocaleString() || "Just now"}
+          </span>
         </div>
       `;
     });
